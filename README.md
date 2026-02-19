@@ -1,53 +1,51 @@
 Electrical Load Monitoring System
-Week 2 Implementation
+Week 3 Implementation
 Overview
 
-In Week 2, additional functionality was added to the Electrical Load Monitoring System. The system now performs energy calculations and allows users to search for appliances by name.
+In Week 3, the billing system was implemented. The system now calculates electricity cost based on user-input tariff values.
 
-This stage builds on the Week 1 foundation by introducing data processing and basic analytical features.
+This stage extends the energy computation feature by introducing cost estimation for both daily and monthly usage.
 
-Features Implemented in Week 2
+Features Implemented in Week 3
 
-Energy calculation for each appliance using the formula:
+User input for electricity tariff (per kWh)
 
+Daily electricity cost calculation
+
+Monthly electricity cost estimation (30 days)
+
+Billing summary display
+
+Input validation for tariff (must be positive number)
+
+Billing Formulas Used
+Daily Energy
 Energy (kWh/day) = (Power × Hours) / 1000
 
+Daily Cost
+Daily Cost = Total kWh/day × Tariff
 
-Energy summary display showing:
+Monthly Cost
+Monthly Cost = Daily Cost × 30
 
-Individual appliance energy consumption
-
-Total energy consumption per day
-
-Case-insensitive search feature:
-
-Users can search for appliances by name
-
-Implemented using transform() and tolower()
-
-Improved input validation
-
-Technical Concepts Applied
-
-Member function inside struct (energyKWhPerDay())
-
-String manipulation using:
-
-<algorithm>
-
-<cctype>
-
-Case-insensitive comparison
-
-Formatted output using <iomanip>
-
-Updated Menu (Week 2)
+Updated Menu (Week 3)
 1. Register appliance
 2. View all appliances
 3. Search appliance by name
 4. Energy summary (kWh/day)
+5. Billing summary
 0. Exit
 
-Objective of Week 2
+Technical Concepts Applied
 
-The objective of Week 2 is to enhance the system by introducing energy computation and search functionality, preparing the system for billing features in Week 3.
+Arithmetic calculations
+
+Input validation
+
+Use of double for accurate cost computation
+
+Formatted output using <iomanip>
+
+Objective of Week 3
+
+The objective of Week 3 is to simulate a real-world electricity billing system by combining energy consumption data with tariff-based cost calculations.

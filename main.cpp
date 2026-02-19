@@ -1,5 +1,5 @@
-// Week 2: Electrical Load Monitoring System
-// Adds: Search appliance + Energy summary (kWh/day)
+// Week 3: Electrical Load Monitoring System
+// Adds: Billing summary (tariff, daily & monthly cost)
 
 #include <iostream>
 #include <vector>
@@ -35,12 +35,13 @@ static string toLowerStr(string s) {
 int menu() {
     cout << "\n==============================\n";
     cout << "   Electrical Load Monitoring\n";
-    cout << "         (Week 2)\n";
+    cout << "         (Week 3)\n";
     cout << "==============================\n";
     cout << "1. Register appliance\n";
     cout << "2. View all appliances\n";
     cout << "3. Search appliance by name\n";
     cout << "4. Energy summary (kWh/day)\n";
+    cout << "5. Billing summary\n";
     cout << "0. Exit\n";
     cout << "Choose: ";
 
@@ -194,6 +195,43 @@ void showEnergySummary(const vector<Appliance>& appliances) {
     cout << "========================================================\n";
 }
 
+void billingSummary(const vector<Appliance>& appliances) {
+    if (appliances.empty()) {
+        cout << "No appliances registered.\n";
+        return;
+    }
+
+    double tariff;
+    while (true) {
+        cout << "Enter electricity tariff per kWh: ";
+        cin >> tariff;
+
+        if (!cin.fail() && tariff > 0) break;
+
+        cout << "Tariff must be a positive number.\n";
+        clearBadInput();
+    }
+
+    double totalEnergyDay = 0.0;
+    for (const auto& a : appliances) {
+        totalEnergyDay += a.energyKWhPerDay();
+    }
+
+    double totalCostDay = totalEnergyDay * tariff;
+
+    // monthly estimate (30 days)
+    double totalEnergyMonth = totalEnergyDay * 30;
+    double totalCostMonth = totalCostDay * 30;
+
+    cout << "\n=============== BILLING SUMMARY ===============\n";
+    cout << "Tariff: " << fixed << setprecision(2) << tariff << " per kWh\n";
+    cout << "Total Energy (per day): " << fixed << setprecision(3) << totalEnergyDay << " kWh/day\n";
+    cout << "Total Cost (per day):   " << fixed << setprecision(2) << totalCostDay << "\n";
+    cout << "Monthly Energy (30d):   " << fixed << setprecision(3) << totalEnergyMonth << " kWh\n";
+    cout << "Monthly Cost (30d):     " << fixed << setprecision(2) << totalCostMonth << "\n";
+    cout << "================================================\n";
+}
+
 int main() {
     vector<Appliance> appliances;
 
@@ -214,6 +252,9 @@ int main() {
                 break;
             case 4:
                 showEnergySummary(appliances);
+                break;
+            case 5:
+                billingSummary(appliances);
                 break;
             case 0:
                 cout << "Goodbye!\n";
