@@ -1,68 +1,53 @@
 Electrical Load Monitoring System
-Week 1 Implementation
+Week 2 Implementation
 Overview
 
-This project is a C++ console-based application developed for the Electrical Load Monitoring capstone project.
+In Week 2, additional functionality was added to the Electrical Load Monitoring System. The system now performs energy calculations and allows users to search for appliances by name.
 
 This stage builds on the Week 1 foundation by introducing data processing and basic analytical features.
 
-At this stage, data is stored temporarily in memory using a vector.
+Features Implemented in Week 2
 
-Features Implemented
+Energy calculation for each appliance using the formula:
 
-Defined a struct Appliance to store:
+Energy (kWh/day) = (Power × Hours) / 1000
 
-Appliance name
 
-Power rating (Watts)
+Energy summary display showing:
 
-Usage hours per day
+Individual appliance energy consumption
 
-Used vector<Appliance> for dynamic storage
+Total energy consumption per day
 
-Implemented a menu-driven interface
+Case-insensitive search feature:
 
-Implemented appliance registration
+Users can search for appliances by name
 
-Implemented view all appliances feature
+Implemented using transform() and tolower()
 
-Added input validation:
+Improved input validation
 
-Name must not be empty
+Technical Concepts Applied
 
-Power must be greater than zero
+Member function inside struct (energyKWhPerDay())
 
-Hours must be between 0 and 24
+String manipulation using:
 
-Program Structure (Week 1)
-main.cpp
-README.md
+<algorithm>
 
-How the Program Works
+<cctype>
 
-The program displays a menu.
+Case-insensitive comparison
 
-The user selects an option.
+Formatted output using <iomanip>
 
-The user can register an appliance by entering:
-
-Name
-
-Power rating
-
-Usage hours per day
-
-Registered appliances are stored in a vector.
-
-The user can view all registered appliances.
-
-The program runs until the user chooses Exit.
-
-Sample Menu
+Updated Menu (Week 2)
 1. Register appliance
 2. View all appliances
+3. Search appliance by name
+4. Energy summary (kWh/day)
 0. Exit
 
-Objective of Week 1
+Objective of Week 2
 
-The objective of Week 1 is to establish the foundation of the system before adding energy calculations, billing, and file persistence in later weeks.
+The objective of Week 2 is to enhance the system by introducing energy computation and search functionality, preparing the system for billing features in Week 3.
