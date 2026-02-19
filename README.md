@@ -4,7 +4,7 @@ Overview
 
 This project is a C++ console-based application developed for the Electrical Load Monitoring capstone project.
 
-Week 1 focuses on building the basic structure of the system. The program allows users to register electrical appliances and view the list of registered appliances.
+This stage builds on the Week 1 foundation by introducing data processing and basic analytical features.
 
 At this stage, data is stored temporarily in memory using a vector.
 
