@@ -1,5 +1,5 @@
-// Week 3: Electrical Load Monitoring System
-// Adds: Billing summary (tariff, daily & monthly cost)
+// Week 4: Electrical Load Monitoring System
+// Adds: File persistence (save/load) + Billing report export to file
 
 #include <iostream>
 #include <vector>
@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <algorithm>
 #include <cctype>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -32,16 +34,71 @@ static string toLowerStr(string s) {
     return s;
 }
 
+const string APPLIANCES_FILE = "appliances.txt";
+const string BILLING_FILE    = "billing_summary.txt";
+
+// ---------------- FILE SAVE/LOAD ----------------
+void saveAppliances(const vector<Appliance>& appliances) {
+    ofstream out(APPLIANCES_FILE);
+    if (!out) {
+        cout << "Error: Unable to save to " << APPLIANCES_FILE << "\n";
+        return;
+    }
+
+    for (const auto& a : appliances) {
+        out << a.name << "|" << a.powerW << "|" << a.hoursPerDay << "\n";
+    }
+}
+
+vector<Appliance> loadAppliances() {
+    vector<Appliance> appliances;
+    ifstream in(APPLIANCES_FILE);
+
+    // file may not exist yet
+    if (!in) return appliances;
+
+    string line;
+    while (getline(in, line)) {
+        if (line.empty()) continue;
+
+        stringstream ss(line);
+        string name, powerStr, hoursStr;
+
+        if (!getline(ss, name, '|')) continue;
+        if (!getline(ss, powerStr, '|')) continue;
+        if (!getline(ss, hoursStr, '|')) continue;
+
+        try {
+            Appliance a{};
+            a.name = name;
+            a.powerW = stod(powerStr);
+            a.hoursPerDay = stod(hoursStr);
+
+            // skip invalid lines
+            if (a.name.empty()) continue;
+            if (a.powerW <= 0) continue;
+            if (a.hoursPerDay < 0 || a.hoursPerDay > 24) continue;
+
+            appliances.push_back(a);
+        } catch (...) {
+            continue;
+        }
+    }
+
+    return appliances;
+}
+
+// ---------------- MENU ----------------
 int menu() {
     cout << "\n==============================\n";
     cout << "   Electrical Load Monitoring\n";
-    cout << "         (Week 3)\n";
+    cout << "         (Week 4)\n";
     cout << "==============================\n";
     cout << "1. Register appliance\n";
     cout << "2. View all appliances\n";
     cout << "3. Search appliance by name\n";
     cout << "4. Energy summary (kWh/day)\n";
-    cout << "5. Billing summary\n";
+    cout << "5. Billing summary (save to file)\n";
     cout << "0. Exit\n";
     cout << "Choose: ";
 
@@ -55,6 +112,7 @@ int menu() {
     return choice;
 }
 
+// ---------------- FEATURES ----------------
 Appliance registerAppliance() {
     Appliance a{};
 
@@ -212,28 +270,83 @@ void billingSummary(const vector<Appliance>& appliances) {
         clearBadInput();
     }
 
-    double totalEnergyDay = 0.0;
-    for (const auto& a : appliances) {
-        totalEnergyDay += a.energyKWhPerDay();
+    // Console report header
+    cout << "\n================ BILLING REPORT ================\n";
+    cout << left
+         << setw(5)  << "No."
+         << setw(20) << "Name"
+         << setw(12) << "kWh/day"
+         << setw(12) << "Cost/day"
+         << "\n------------------------------------------------\n";
+
+    // File report
+    ofstream out(BILLING_FILE);
+    if (!out) {
+        cout << "Error: Unable to write to " << BILLING_FILE << "\n";
+    } else {
+        out << "================ BILLING REPORT ================\n";
+        out << left
+            << setw(5)  << "No."
+            << setw(20) << "Name"
+            << setw(12) << "kWh/day"
+            << setw(12) << "Cost/day"
+            << "\n------------------------------------------------\n";
     }
 
-    double totalCostDay = totalEnergyDay * tariff;
+    double totalEnergyDay = 0.0;
+    double totalCostDay   = 0.0;
 
-    // monthly estimate (30 days)
+    for (size_t i = 0; i < appliances.size(); i++) {
+        const auto& a = appliances[i];
+        double kwhDay  = a.energyKWhPerDay();
+        double costDay = kwhDay * tariff;
+
+        totalEnergyDay += kwhDay;
+        totalCostDay   += costDay;
+
+        cout << left
+             << setw(5)  << (i + 1)
+             << setw(20) << a.name
+             << setw(12) << fixed << setprecision(3) << kwhDay
+             << setw(12) << fixed << setprecision(2) << costDay
+             << "\n";
+
+        if (out) {
+            out << left
+                << setw(5)  << (i + 1)
+                << setw(20) << a.name
+                << setw(12) << fixed << setprecision(3) << kwhDay
+                << setw(12) << fixed << setprecision(2) << costDay
+                << "\n";
+        }
+    }
+
     double totalEnergyMonth = totalEnergyDay * 30;
-    double totalCostMonth = totalCostDay * 30;
+    double totalCostMonth   = totalCostDay * 30;
 
-    cout << "\n=============== BILLING SUMMARY ===============\n";
-    cout << "Tariff: " << fixed << setprecision(2) << tariff << " per kWh\n";
+    cout << "------------------------------------------------\n";
     cout << "Total Energy (per day): " << fixed << setprecision(3) << totalEnergyDay << " kWh/day\n";
     cout << "Total Cost (per day):   " << fixed << setprecision(2) << totalCostDay << "\n";
     cout << "Monthly Energy (30d):   " << fixed << setprecision(3) << totalEnergyMonth << " kWh\n";
     cout << "Monthly Cost (30d):     " << fixed << setprecision(2) << totalCostMonth << "\n";
     cout << "================================================\n";
+
+    if (out) {
+        out << "------------------------------------------------\n";
+        out << "Total Energy (per day): " << fixed << setprecision(3) << totalEnergyDay << " kWh/day\n";
+        out << "Total Cost (per day):   " << fixed << setprecision(2) << totalCostDay << "\n";
+        out << "Monthly Energy (30d):   " << fixed << setprecision(3) << totalEnergyMonth << " kWh\n";
+        out << "Monthly Cost (30d):     " << fixed << setprecision(2) << totalCostMonth << "\n";
+        out << "================================================\n";
+        out.close();
+
+        cout << "Billing summary saved to " << BILLING_FILE << "\n";
+    }
 }
 
+// ---------------- MAIN ----------------
 int main() {
-    vector<Appliance> appliances;
+    vector<Appliance> appliances = loadAppliances();
 
     while (true) {
         int choice = menu();
@@ -242,6 +355,7 @@ int main() {
             case 1: {
                 Appliance a = registerAppliance();
                 appliances.push_back(a);
+                saveAppliances(appliances);
                 break;
             }
             case 2:
@@ -257,6 +371,7 @@ int main() {
                 billingSummary(appliances);
                 break;
             case 0:
+                saveAppliances(appliances);
                 cout << "Goodbye!\n";
                 return 0;
             default:

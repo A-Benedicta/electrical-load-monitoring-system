@@ -1,51 +1,75 @@
 Electrical Load Monitoring System
-Week 3 Implementation
+Week 4 Implementation
 Overview
 
-In Week 3, the billing system was implemented. The system now calculates electricity cost based on user-input tariff values.
+In Week 4, file persistence and report export functionality were implemented. The system now saves appliance data to a file and automatically loads existing data when the program starts.
 
-This stage extends the energy computation feature by introducing cost estimation for both daily and monthly usage.
+Additionally, billing reports are exported to a text file for record keeping.
 
-Features Implemented in Week 3
+This stage completes the core functionality of the Electrical Load Monitoring System.
 
-User input for electricity tariff (per kWh)
+Features Implemented in Week 4
 
-Daily electricity cost calculation
+Save appliance data to appliances.txt
 
-Monthly electricity cost estimation (30 days)
+Load appliance data automatically at program startup
 
-Billing summary display
+Export billing report to billing_summary.txt
 
-Input validation for tariff (must be positive number)
+File parsing using stringstream
 
-Billing Formulas Used
-Daily Energy
-Energy (kWh/day) = (Power × Hours) / 1000
+Error handling for file operations
 
-Daily Cost
-Daily Cost = Total kWh/day × Tariff
+Files Used
+appliances.txt
 
-Monthly Cost
-Monthly Cost = Daily Cost × 30
+Stores appliance data in the format:
 
-Updated Menu (Week 3)
+Name|PowerW|HoursPerDay
+Fan|75|8
+TV|120|5
+
+billing_summary.txt
+
+Stores generated billing report including:
+
+Individual appliance daily cost
+
+Total daily energy
+
+Total daily cost
+
+Monthly energy estimate
+
+Monthly cost estimate
+
+Technical Concepts Applied
+
+<fstream> for file reading and writing
+
+<sstream> for parsing file content
+
+Data validation when loading from file
+
+Persistent data storage
+
+Report generation and export
+
+Updated Menu (Week 4)
 1. Register appliance
 2. View all appliances
 3. Search appliance by name
 4. Energy summary (kWh/day)
-5. Billing summary
+5. Billing summary (save to file)
 0. Exit
 
-Technical Concepts Applied
+Project Structure (Final Version)
+main.cpp
+appliances.txt
+billing_summary.txt
+README.md
+.gitignore
 
-Arithmetic calculations
+Objective of Week 4
 
-Input validation
-
-Use of double for accurate cost computation
-
-Formatted output using <iomanip>
-
-Objective of Week 3
-
-The objective of Week 3 is to simulate a real-world electricity billing system by combining energy consumption data with tariff-based cost calculations.
+The objective of Week 4 is to implement permanent data storage and export functionality, ensuring that appliance data is not lost when the program closes and billing reports can be saved for future reference.
