@@ -1,75 +1,98 @@
 Electrical Load Monitoring System
-Week 4 Implementation
-Overview
+Author
 
-In Week 4, file persistence and report export functionality were implemented. The system now saves appliance data to a file and automatically loads existing data when the program starts.
+Benedicta Dan Agbo
 
-Additionally, billing reports are exported to a text file for record keeping.
+Project Overview
 
-This stage completes the core functionality of the Electrical Load Monitoring System.
+The Electrical Load Monitoring System is a C++ console-based application developed to monitor household electrical appliance energy consumption and estimate electricity costs.
 
-Features Implemented in Week 4
+The system allows users to register appliances, calculate total daily energy usage (kWh), and generate both daily and monthly billing reports based on a given electricity tariff.
 
-Save appliance data to appliances.txt
+This project demonstrates practical implementation of structured programming, file handling, data storage, and input validation in C++.
 
-Load appliance data automatically at program startup
+Features
 
-Export billing report to billing_summary.txt
+Add new electrical appliances
 
-File parsing using stringstream
+Store appliance records in appliances.txt
 
-Error handling for file operations
+Display all registered appliances
 
-Files Used
-appliances.txt
+Calculate total energy consumption (kWh/day)
 
-Stores appliance data in the format:
+Generate daily billing report
 
-Name|PowerW|HoursPerDay
-Fan|75|8
-TV|120|5
+Calculate estimated monthly cost (30 days)
 
-billing_summary.txt
+Save billing results to billing_summary.txt
 
-Stores generated billing report including:
+Input validation for accurate data entry
 
-Individual appliance daily cost
+Program Formula Used
 
-Total daily energy
+Daily Energy (kWh):
 
-Total daily cost
+Energy = (Power in Watts × Hours per day) ÷ 1000
 
-Monthly energy estimate
+Daily Cost:
 
-Monthly cost estimate
+Cost = Energy × Tariff per kWh
 
-Technical Concepts Applied
+Monthly Estimate (30 days):
 
-<fstream> for file reading and writing
+Monthly Cost = Daily Cost × 30
 
-<sstream> for parsing file content
+Technologies Used
 
-Data validation when loading from file
+C++
 
-Persistent data storage
+STL (Vectors, Strings)
 
-Report generation and export
+File Handling (fstream)
 
-Updated Menu (Week 4)
-1. Register appliance
-2. View all appliances
-3. Search appliance by name
-4. Energy summary (kWh/day)
-5. Billing summary (save to file)
-0. Exit
+String manipulation
 
-Project Structure (Final Version)
+Structured programming
+
+Git & GitHub for version control
+
+Project File Structure
+.gitignore
+README.md
 main.cpp
 appliances.txt
 billing_summary.txt
-README.md
-.gitignore
+Sample Demo Data
+appliances.txt
+Fan|50|5
+TV|25|6
+Radio|15|3
+billing_summary.txt
+Total Energy (per day): 0.445 kWh/day
+Total Cost (per day): 11.12
+Monthly Energy (30d): 13.350 kWh
+Monthly Cost (30d): 333.75
+Learning Outcomes
 
-Objective of Week 4
+This project demonstrates understanding of:
 
-The objective of Week 4 is to implement permanent data storage and export functionality, ensuring that appliance data is not lost when the program closes and billing reports can be saved for future reference.
+Structs in C++
+
+Vectors for dynamic storage
+
+File reading and writing
+
+Input validation techniques
+
+Energy computation logic
+
+Modular programming with functions
+
+Basic billing automation
+
+Git version control workflow
+
+Conclusion
+
+The Electrical Load Monitoring System provides a simple but effective solution for estimating electricity consumption and cost for household appliances. It reinforces core C++ programming principles and practical software development skills.
