@@ -92,7 +92,6 @@ vector<Appliance> loadAppliances() {
 int menu() {
     cout << "\n==============================\n";
     cout << "   Electrical Load Monitoring\n";
-    cout << "         (Week 4)\n";
     cout << "==============================\n";
     cout << "1. Register appliance\n";
     cout << "2. View all appliances\n";
