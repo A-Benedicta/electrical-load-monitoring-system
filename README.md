@@ -65,15 +65,23 @@ appliances.txt
 billing_summary.txt
 Sample Demo Data
 appliances.txt
-Fan|50|5
-TV|25|6
-Radio|15|3
+Radio|60|3
+TV|50|3
+AC|240|7
 billing_summary.txt
-Total Energy (per day): 0.445 kWh/day
-Total Cost (per day): 11.12
-Monthly Energy (30d): 13.350 kWh
-Monthly Cost (30d): 333.75
-Learning Outcomes
+=============== BILLING REPORT ================
+No.  Name                kWh/day     Cost/day    
+------------------------------------------------
+1    Radio               0.180       3.60        
+2    TV                  0.150       3.00        
+3    AC                  1.680       33.60       
+------------------------------------------------
+Total Energy (per day): 2.010 kWh/day
+Total Cost (per day):   40.20
+Monthly Energy (30d):   60.300 kWh
+Monthly Cost (30d):     1206.00
+================================================
+
 
 This project demonstrates understanding of:
 
